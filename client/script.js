@@ -60,6 +60,10 @@ const handleSubmit = async (e) => {
 
     const data = new FormData(form);
 
+    if (data.get('prompt').trim() == '') {
+        return;
+    }
+
     // user's chatservice
     chatContainer.innerHTML += chatStripe(false, data.get('prompt'));
 
@@ -102,12 +106,16 @@ const handleSubmit = async (e) => {
 }
 
 form.addEventListener('submit', (e) => {
+    console.log('submit!!!')
     handleSubmit(e);
 });
 form.addEventListener('keyup', (e) => {
+    console.log('keyup!!! {}', e);
+    e.preventDefault();
     let key = e.key || e.keyCode;
-    if ((key === 'Enter' && !e.shiftKey) || (key === 13 && key !== 16)) {
-        // debugger;
+    if ((key === 'Enter' && e.shiftKey) || (key === 13 && key == 16)) {
+        console.log('keyup!!! => done!!')
+
         handleSubmit(e);
         return false;
     }
